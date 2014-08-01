@@ -36,7 +36,7 @@ class ScottishEnterpriseTests(unittest.TestCase):
     def test_functional_error_page_500(self):
         url = base_url + "/|"
         tests = Tests()
-        self.assertEqual(tests.get_status_code_and_page_title(url, "Illegal characters in path.", "200", site + '500Page', generictests.screenshot_path),True)
+        self.assertEqual(tests.get_status_code_and_page_title(url, "Illegal characters in path.", "500", site + '500Page', generictests.screenshot_path),True)
 
     def test_analytics1_Google_CheckGaScriptLoaded(self):
         url = base_url + "/"
@@ -113,7 +113,13 @@ class ScottishEnterpriseTests(unittest.TestCase):
         url = base_url + "/knowledge-hub"
         tests = SETests()
         self.assertEqual(tests.knowledge_hub_side_pod(url,'//main/article/section[@class="knowledge-hub-additional"]/div[1]/a',r'Share this article',site + '-KnowledgeHubSidePod', generictests.screenshot_path),True)
-######################Non Generic Tests#######################
+
+    # def test_login(self):
+    #     url = base_url + "/login"
+    #     tests = SETests()
+    #     self.assertEqual(tests.login(url,'plmain_0_ucLogin_rptLoginSources_lnkShowLogin_0','dtest2@dogdigital.com','jimbob','Username','Password','//div[@class="idControls"]/button', '//div/nav[@class="secondary-nav grid_19"]/ul/li[3]/a', site + '-Login',generictests.screenshot_path),True)
+
+        ######################Non Generic Tests#######################
 
 
     def test_z_close(self):

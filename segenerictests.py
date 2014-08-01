@@ -70,6 +70,37 @@ class SETests(unittest.TestCase):
             driver.get_screenshot_as_file(screenshot_path + screenshot_name + timestamp + '.png')
             return error
 
+    def login(self, fullurl, loginid, username, password, usernameid, passwordid, loginbuttonxpath, profilexpath, screenshot_name, screenshot_path):
+        try:
+            driver = generictests.driver
+            driver.get(fullurl)
+            driver.find_element_by_id(loginid).click()
+            driver.switch_to_frame(driver.find_element_by_tag_name("iframe"))
+            generictests.inputfield_value_byid(usernameid, username)
+            generictests.inputfield_value_byid(passwordid, password)
+            driver.find_element_by_xpath(loginbuttonxpath).click()
+        except:
+            timestamp = generictests.get_timestamp()
+            error = "Failed to login: " + generictests.server_url + "CapturedScreenshots/" + screenshot_name + timestamp + '.png'
+            driver.get_screenshot_as_file(screenshot_path + screenshot_name + timestamp + '.png')
+            return error
+        # try:
+        #     driver.switch_to_default_content()
+        #     driver.find_element_by_link_text(profilexpath).click()
+        #     return True
+        # except:
+        #     timestamp = generictests.get_timestamp()
+        #     error = "Failed to login: " + generictests.server_url + "CapturedScreenshots/" + screenshot_name + timestamp + '.png'
+        #     driver.get_screenshot_as_file(screenshot_path + screenshot_name + timestamp + '.png')
+        #     return error
+        time.sleep(1)
+        #driver.switch_to_default_content()
+        driver.get_screenshot_as_file(screenshot_path + screenshot_name + generictests.get_timestamp() + '.png')
+        print generictests.server_url + "CapturedScreenshots/" + screenshot_name + generictests.get_timestamp() + '.png'
+        print profilexpath
+        driver.find_element_by_xpath(profilexpath).click()
+
+
     def runTest(self):
         pass
 

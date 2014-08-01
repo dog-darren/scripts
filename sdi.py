@@ -183,7 +183,6 @@ class SDITests(unittest.TestCase):
             timestamp = generictests.get_timestamp()
             error = "Could not complete the test.  Screenshot captured: " + generictests.server_url + "CapturedScreenshots/SDIVisuliserPDFDownload" + timestamp + '.png'
             driver.get_screenshot_as_file(generictests.screenshot_path + site + '-VisuliserPDFDownload' + timestamp + '.png')
-
             try:
                 driver.switch_to.window("Office space")
             except:
@@ -192,6 +191,7 @@ class SDITests(unittest.TestCase):
 
     def test_contact_us_form(self):
         driver = generictests.driver
+        tests = Tests()
         url = base_url + "/DoNotDelete/Contactus"
         try:
             driver.get(url)
@@ -215,7 +215,6 @@ class SDITests(unittest.TestCase):
             raise Exception(error)
         try:
             driver.implicitly_wait(10)
-            tests = Tests()
             tests.text_search(url,"r'Thank you for contacting us.'","error","ContactForm",generictests.screenshot_path)
         except:
             timestamp = generictests.get_timestamp()

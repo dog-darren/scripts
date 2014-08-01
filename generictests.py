@@ -114,7 +114,7 @@ class Tests(unittest.TestCase):
             return True
         except:
             error = "Text search for: " + query + " did not return the expected results. " + "\n" + "Screenshot: " + server_url + "CapturedScreenshots/" + screenshot_name + get_timestamp() + ".png" + "\n" + "URL: " + fullurl
-            driver.get_screenshot_as_file(screenshot_path + screenshot_name + timestamp + '.png')
+            driver.get_screenshot_as_file(screenshot_path + screenshot_name + get_timestamp() + '.png')
             return error
 
     def get_tag_text(self, fullurl, tag, query, screenshot_name, screenshot_path):
