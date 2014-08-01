@@ -19,11 +19,6 @@ screenshot_path = "C:\\selenium\CapturedScreenshots\\"
 config = ConfigParser.RawConfigParser()
 
 
-def take_screenshot(driver, save_location): #Screenshot capture
-        path = os.path.abspath(save_location)
-        driver.get_screenshot_as_file(save_location)
-        return save_location
-
 def id_generator(size=10, chars=string.ascii_uppercase + string.digits): #Random ID generator
     return ''.join(random.choice(chars) for _ in range(size))
 
@@ -51,7 +46,7 @@ class Tests(unittest.TestCase):
             except:
                 timestamp = get_timestamp()
                 error = "Failed to connect to " + fullurl + "\n" + "Screenshot: " + server_url + "CapturedScreenshots/" + screenshot_name + timestamp + ".png" + "\n" + "URL: " + fullurl
-                take_screenshot(driver, screenshot_path + screenshot_name + timestamp + '.png')
+                driver.get_screenshot_as_file(screenshot_path + screenshot_name + timestamp + '.png')
                 return error
             try:
                 self.assertEqual(str(status_code), responseCode,)
@@ -59,7 +54,7 @@ class Tests(unittest.TestCase):
             except:
                 timestamp = get_timestamp()
                 error = "Status code incorrect for: " + fullurl + "\n" + "Screenshot: " + server_url + "CapturedScreenshots/" + screenshot_name + timestamp + ".png" + "\n" + "URL: " + fullurl
-                take_screenshot(driver, screenshot_path + screenshot_name + timestamp + '.png')
+                driver.get_screenshot_as_file(screenshot_path + screenshot_name + timestamp + '.png')
                 return error
         def page_title(pagetitle,screenshot_name, screenshot_path):
             try:
@@ -68,7 +63,7 @@ class Tests(unittest.TestCase):
             except:
                 timestamp = get_timestamp()
                 error = "Expected page title: " + pagetitle + " Got: " + driver.title + "\n" + "Screenshot: " + server_url + "CapturedScreenshots/" + screenshot_name + timestamp + ".png" + "\n" + "URL: " + fullurl
-                take_screenshot(driver, screenshot_path + screenshot_name + timestamp + '.png')
+                driver.get_screenshot_as_file(screenshot_path + screenshot_name + timestamp + '.png')
                 return error
         code = return_code(fullurl,pagetitle,code,screenshot_name, screenshot_path)
         title = page_title(pagetitle,screenshot_name, screenshot_path)
@@ -89,7 +84,7 @@ class Tests(unittest.TestCase):
             except:
                 timestamp = get_timestamp()
                 error = "Failed to connect to " + fullurl + "\n" + "Screenshot: " + server_url + "CapturedScreenshots/" + screenshot_name + timestamp + ".png" + "\n" + "URL: " + fullurl
-                take_screenshot(driver, screenshot_path + screenshot_name + timestamp + '.png')
+                driver.get_screenshot_as_file(screenshot_path + screenshot_name + timestamp + '.png')
                 return error
             try:
                 error = "Status code incorrect for: " + fullurl + "\n" + "Expected: " + code +" Got: " + str(status_code) + "\n" + "Screenshot: " + server_url + screenshot_name + dateTimeStamp + ".png" + "\n" + "URL: " + fullurl
@@ -98,7 +93,7 @@ class Tests(unittest.TestCase):
             except:
                 timestamp = get_timestamp()
                 error = "Status code incorrect for: " + fullurl + "\n" + "Screenshot: " + server_url + "CapturedScreenshots/" + screenshot_name + timestamp + ".png" + "\n" + "URL: " + fullurl
-                take_screenshot(driver, screenshot_path + screenshot_name + timestamp + '.png')
+                driver.get_screenshot_as_file(screenshot_path + screenshot_name + timestamp + '.png')
                 return error
         code = return_code(fullurl,code,screenshot_name, screenshot_path)
         if code == True:
@@ -119,7 +114,7 @@ class Tests(unittest.TestCase):
             return True
         except:
             error = "Text search for: " + query + " did not return the expected results. " + "\n" + "Screenshot: " + server_url + "CapturedScreenshots/" + screenshot_name + get_timestamp() + ".png" + "\n" + "URL: " + fullurl
-            take_screenshot(driver, screenshot_path + screenshot_name + get_timestamp() + '.png')
+            driver.get_screenshot_as_file(screenshot_path + screenshot_name + timestamp + '.png')
             return error
 
     def get_tag_text(self, fullurl, tag, query, screenshot_name, screenshot_path):
@@ -131,7 +126,7 @@ class Tests(unittest.TestCase):
         except:
             timestamp = get_timestamp()
             error = "Text search for: " + query + " did not return the expected results. " + "\n" + "Screenshot: " + server_url + "CapturedScreenshots/" + screenshot_name + timestamp + ".png" + "\n" + "URL: " + fullurl
-            take_screenshot(driver, screenshot_path + screenshot_name + timestamp + '.png')
+            driver.get_screenshot_as_file(screenshot_path + screenshot_name + timestamp + '.png')
             return error
 
     def check_title_and_link_text(self, fullurl, title, linktext, screenshot_name, screenshot_path):
@@ -144,7 +139,7 @@ class Tests(unittest.TestCase):
             except:
                 timestamp = get_timestamp()
                 error = "Expected: " + title + " Got: " + driver.title + "\n" + "Screenshot: " + server_url + "CapturedScreenshots/" + screenshot_name + timestamp + ".png" + "\n" + "URL: " + fullurl
-                take_screenshot(driver, screenshot_path + screenshot_name + timestamp + '.png')
+                driver.get_screenshot_as_file(screenshot_path + screenshot_name + timestamp + '.png')
                 return error
         def checklinktext(linktext):
              try:
@@ -154,7 +149,7 @@ class Tests(unittest.TestCase):
              except:
                 timestamp = get_timestamp()
                 error = "Link text search for: " + linktext + " did not return the expected results. " + "\n" + "Screenshot: " + server_url + "CapturedScreenshots/" + screenshot_name + timestamp + ".png" + "\n" + "URL: " + fullurl
-                take_screenshot(driver, screenshot_path + screenshot_name + timestamp + '.png')
+                driver.get_screenshot_as_file(screenshot_path + screenshot_name + timestamp + '.png')
                 return error
         title_value = checktitle(title)
         linktext_value = checklinktext(linktext)
@@ -178,7 +173,7 @@ class Tests(unittest.TestCase):
         except:
             timestamp = get_timestamp()
             error = "Robots.txt is not configured correctly." + "\n" + "Screenshot: " + server_url + "CapturedScreenshots/" + screenshot_name + timestamp + ".png" + "\n" + "URL: " + fullurl
-            take_screenshot(driver, screenshot_path + screenshot_name + timestamp + '.png')
+            driver.get_screenshot_as_file(screenshot_path + screenshot_name + timestamp + '.png')
             return error
 
     def check_ssl_certificate(self, fullurl, screenshot_name, screenshot_path):
@@ -189,7 +184,7 @@ class Tests(unittest.TestCase):
         except:
             timestamp = get_timestamp()
             error = "SSL certificate not valid." + "\n" + "Screenshot: " + server_url + "CapturedScreenshots/" + screenshot_name + timestamp + ".png" + "\n" + "URL: " + fullurl
-            take_screenshot(driver, screenshot_path + screenshot_name + timestamp + '.png')
+            driver.get_screenshot_as_file(screenshot_path + screenshot_name + timestamp + '.png')
             return error
 
     def accessibility_page_has_h1(self, fullurl, urllist, logfile):
@@ -262,7 +257,7 @@ class Tests(unittest.TestCase):
         except:
             timestamp = get_timestamp()
             error = "Homepage logo or image not loaded correctly on " + url + "  Screenshot captured: " + server_url + "CapturedScreenshots/" + screenshot_name + timestamp + '.png'
-            take_screenshot(driver, screenshot_path + screenshot_name + timestamp + '.png')
+            driver.get_screenshot_as_file(screenshot_path + screenshot_name + timestamp + '.png')
             return error
 
     def functional_site_search_query_string_based(self, fullurl, query, xpath, message, screenshot_name):
@@ -274,7 +269,7 @@ class Tests(unittest.TestCase):
                 self.assertEqual(self.text_search(fullurl,query, message, screenshot_name,screenshot_path),True)
                 return True
             except:
-                take_screenshot(driver, screenshot_path + screenshot_name + timestamp + '.png')
+                driver.get_screenshot_as_file(screenshot_path + screenshot_name + timestamp + '.png')
                 error = "Search result page not loading.  Screenshot captured: " + server_url + "CapturedScreenshots/" + screenshot_name + timestamp + '.png' + "URL: " + fullurl
                 return error
         def checkFirstResult():
@@ -282,7 +277,7 @@ class Tests(unittest.TestCase):
                 driver.find_element_by_xpath(xpath)
                 return True
             except:
-                take_screenshot(driver, screenshot_path + screenshot_name + timestamp + '.png')
+                driver.get_screenshot_as_file(screenshot_path + screenshot_name + timestamp + '.png')
                 error = "Search results not loading.  Screenshot captured: " + server_url + "CapturedScreenshots/" + screenshot_name + timestamp + '.png' + " URL: " + fullurl
                 return error
         header = checkHeader()

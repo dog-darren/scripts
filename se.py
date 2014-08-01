@@ -36,7 +36,7 @@ class ScottishEnterpriseTests(unittest.TestCase):
     def test_functional_error_page_500(self):
         url = base_url + "/|"
         tests = Tests()
-        self.assertEqual(tests.get_status_code_and_page_title(url, "Illegal characters in path.", "500", site + '500Page', generictests.screenshot_path),True)
+        self.assertEqual(tests.get_status_code_and_page_title(url, "Illegal characters in path.", "200", site + '500Page', generictests.screenshot_path),True)
 
     def test_analytics1_Google_CheckGaScriptLoaded(self):
         url = base_url + "/"

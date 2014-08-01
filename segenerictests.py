@@ -24,7 +24,7 @@ class SETests(unittest.TestCase):
         except:
             timestamp = generictests.get_timestamp()
             error = "Could not load 1st knowledge hub article. Screenshot: " + generictests.server_url + "CapturedScreenshots/" + screenshot_name + timestamp + '.png'
-            generictests.take_screenshot(driver, screenshot_path + screenshot_name + timestamp + '.png')
+            driver.get_screenshot_as_file(screenshot_path + screenshot_name + timestamp + '.png')
             return error
 
     def knowledge_hub_filter(self, fullurl, xpath, filterid, filteritemid, donelink, screenshot_name, screenshot_path):
@@ -45,7 +45,7 @@ class SETests(unittest.TestCase):
         except:
             timestamp = generictests.get_timestamp()
             error = "Knowledge hub filter appears to not be working. Screenshot: " + generictests.server_url + "CapturedScreenshots/" + screenshot_name + timestamp + '.png'
-            generictests.take_screenshot(driver, screenshot_path + screenshot_name + timestamp + '.png')
+            driver.get_screenshot_as_file(screenshot_path + screenshot_name + timestamp + '.png')
             return error
 
     def knowledge_hub_side_pod(self, fullurl, xpath, query, screenshot_name, screenshot_path):
@@ -56,7 +56,7 @@ class SETests(unittest.TestCase):
         except:
             timestamp = generictests.get_timestamp()
             error = "Knowledge side pod doesn't exist: " + generictests.server_url + "CapturedScreenshots/" + screenshot_name + timestamp + '.png'
-            generictests.take_screenshot(driver, screenshot_path + screenshot_name + timestamp + '.png')
+            driver.get_screenshot_as_file(screenshot_path + screenshot_name + timestamp + '.png')
             return error
         try:
             driver.implicitly_wait(10)
@@ -67,7 +67,7 @@ class SETests(unittest.TestCase):
         except:
             timestamp = generictests.get_timestamp()
             error = "Knowledge side pod page failed to load: " + generictests.server_url + "CapturedScreenshots/" + screenshot_name + timestamp + '.png'
-            generictests.take_screenshot(driver, screenshot_path + screenshot_name + timestamp + '.png')
+            driver.get_screenshot_as_file(screenshot_path + screenshot_name + timestamp + '.png')
             return error
 
     def runTest(self):

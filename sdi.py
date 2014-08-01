@@ -182,7 +182,8 @@ class SDITests(unittest.TestCase):
         except:
             timestamp = generictests.get_timestamp()
             error = "Could not complete the test.  Screenshot captured: " + generictests.server_url + "CapturedScreenshots/SDIVisuliserPDFDownload" + timestamp + '.png'
-            generictests.take_screenshot(driver, generictests.screenshot_path + 'SDIVisuliserPDFDownload' + timestamp + '.png')
+            driver.get_screenshot_as_file(generictests.screenshot_path + site + '-VisuliserPDFDownload' + timestamp + '.png')
+
             try:
                 driver.switch_to.window("Office space")
             except:
@@ -209,8 +210,8 @@ class SDITests(unittest.TestCase):
             driver.implicitly_wait(10)
         except:
             timestamp = generictests.get_timestamp()
-            error = "Could not complete the test.  Screenshot captured: " + generictests.server_url + "CapturedScreenshots/" + site + "ContactFormSubmit" + timestamp + '.png'
-            generictests.take_screenshot(driver, generictests.screenshot_path + site + '-ContactFormSubmit' + timestamp + '.png')
+            error = "Could not complete the contact us form.  Screenshot captured: " + generictests.server_url + "CapturedScreenshots/" + site + "ContactFormSubmit" + timestamp + '.png'
+            driver.get_screenshot_as_file(generictests.screenshot_path + site + '-ContactFormSubmit' + timestamp + '.png')
             raise Exception(error)
         try:
             driver.implicitly_wait(10)
@@ -218,8 +219,8 @@ class SDITests(unittest.TestCase):
             tests.text_search(url,"r'Thank you for contacting us.'","error","ContactForm",generictests.screenshot_path)
         except:
             timestamp = generictests.get_timestamp()
-            error = "Could not complete the test.  Screenshot captured: " + generictests.server_url + "CapturedScreenshots/" + site + "ContactFormSubmit" + timestamp + '.png'
-            generictests.take_screenshot(driver, generictests.screenshot_path + site + '-ContactFormSubmit' + timestamp + '.png')
+            error = "Thank you page appears not to have loaded.  Screenshot captured: " + generictests.server_url + "CapturedScreenshots/" + site + "ContactFormSubmit" + timestamp + '.png'
+            driver.get_screenshot_as_file(generictests.screenshot_path + site + '-ContactFormSubmit' + timestamp + '.png')
             raise Exception(error)
 
 
