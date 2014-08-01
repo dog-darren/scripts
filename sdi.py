@@ -1,5 +1,6 @@
 import unittest,os,sys,time
-import generictests, runner
+import generictests, runner, segenerictests
+from segenerictests import SETests
 from generictests import Tests
 from teamcity import is_running_under_teamcity
 from teamcity.unittestpy import TeamcityTestRunner
@@ -38,7 +39,7 @@ class SDITests(unittest.TestCase):
     def test_functional_error_page_500(self):
         url = base_url + "/|"
         tests = Tests()
-        self.assertEqual(tests.get_status_code_and_page_title(url, "Illegal characters in path.", "500", site + '500Page', generictests.screenshot_path),True)
+        self.assertEqual(tests.get_status_code_and_page_title(url, "Internal server error", "500", site + '500Page', generictests.screenshot_path),True)
 
     def test_analytics1_Google_CheckGaScriptLoaded(self):
         url = base_url + "/"
@@ -102,7 +103,25 @@ class SDITests(unittest.TestCase):
         tests = Tests()
         self.assertEqual(tests.functional_site_search_query_string_based(url,r'All results','//a[@id="plmain_0_RepeaterAll_lnkArticle_0"]',"issue",site + '-search_results'),True)
 
+    def test_site_search_query_string_based(self):
+        url = base_url + "/search?q=scotland"
+        tests = Tests()
+        self.assertEqual(tests.functional_site_search_query_string_based(url,r'All results','//a[@id="plmain_0_RepeaterAll_lnkArticle_0"]',"issue",site + '-search_results'),True)
 
+    def test_knowledge_hub_load_first_content_item(self):
+        url = base_url + "/knowledge-hub"
+        tests = SETests()
+        self.assertEqual(tests.knowledge_hub_load_first_content_item(url,'//main/article/section[@id="plmain_0_divMainResultsSection"]/div[1]/a',site + '-KnowledgeHubArticleLoad',generictests.screenshot_path),True)
+
+    def test_knowledge_hub_filter(self):
+        url = base_url + "/knowledge-hub"
+        tests = SETests()
+        self.assertEqual(tests.knowledge_hub_filter(url, '//div[@class="results"]/p/span', 'industry-link', 'industry{875374F8-128A-45D6-9C02-AF5B283438F6}','//fieldset[@id="industry-filter"]/a', site + '-KnowledgeHubFilter', generictests.screenshot_path),True)
+
+    def test_knowledge_hub_sidepanels(self):
+        url = base_url + "/knowledge-hub"
+        tests = SETests()
+        self.assertEqual(tests.knowledge_hub_side_pod(url,'//main/article/section[@class="knowledge-hub-additional"]/div[1]/a',r'Share this article',site + '-KnowledgeHubSidePod', generictests.screenshot_path),True)
 
 ######################Non Generic Tests#######################
     def test_project_visuliser_downloadPDF(self):
@@ -169,6 +188,41 @@ class SDITests(unittest.TestCase):
             except:
                 do = "nothing"
             raise Exception(error)
+
+    def test_contact_us_form(self):
+        driver = generictests.driver
+        url = base_url + "/DoNotDelete/Contactus"
+        try:
+            driver.get(url)
+            generictests.inputfield_value_byid("plmain_0_form_CE8F5E0197324B17BF41CAE06A641660_field_D6BA4B7A40F448E28B3975D783AEC117", "Darren" )#Firstname
+            generictests.inputfield_value_byid("plmain_0_form_CE8F5E0197324B17BF41CAE06A641660_field_514A6ED29B7C40C3A4D9DA422AB7668E", "McMillan") #Last name
+            generictests.inputfield_value_byid("plmain_0_form_CE8F5E0197324B17BF41CAE06A641660_field_F19B13F25E104B0DB2A0BAE6B166584B", "dtest1@dogdigital.com") #Email Address
+            generictests.inputfield_value_byid("plmain_0_form_CE8F5E0197324B17BF41CAE06A641660_field_80E397CEAA5A49BDBA7A08075874EC89", "Dog Digital") #company name
+            generictests.inputfield_value_byid("plmain_0_form_CE8F5E0197324B17BF41CAE06A641660_field_41D98BF758A34C61956B8752B37B8A70","Position") #position
+            driver.find_element_by_xpath("//select[@id='plmain_0_form_CE8F5E0197324B17BF41CAE06A641660_field_D50CDCE78B174903BDC38DDFDF9363FE']/option[text()='United Kingdom']").click()
+            driver.find_element_by_id("plmain_0_form_CE8F5E0197324B17BF41CAE06A641660_field_CA67D6A00947468A81CBA381B298E64Fscope_0").click()
+            generictests.inputfield_value_byid("plmain_0_form_CE8F5E0197324B17BF41CAE06A641660_field_C3B51286C48B4CCD94907B366EFBC957", "Test please ignore")
+            driver.find_element_by_id("plmain_0_form_CE8F5E0197324B17BF41CAE06A641660_field_4FD94854B5194550A340D198EF65AA9Flist_0").click()
+            driver.find_element_by_name("plmain_0$form_CE8F5E0197324B17BF41CAE06A641660$form_CE8F5E0197324B17BF41CAE06A641660_submit").click()
+            assert 'Thank you' in driver.title
+            #assert thank you copy on page
+            driver.implicitly_wait(10)
+        except:
+            timestamp = generictests.get_timestamp()
+            error = "Could not complete the test.  Screenshot captured: " + generictests.server_url + "CapturedScreenshots/" + site + "ContactFormSubmit" + timestamp + '.png'
+            generictests.take_screenshot(driver, generictests.screenshot_path + site + '-ContactFormSubmit' + timestamp + '.png')
+            raise Exception(error)
+        try:
+            driver.implicitly_wait(10)
+            tests = Tests()
+            tests.text_search(url,"r'Thank you for contacting us.'","error","ContactForm",generictests.screenshot_path)
+        except:
+            timestamp = generictests.get_timestamp()
+            error = "Could not complete the test.  Screenshot captured: " + generictests.server_url + "CapturedScreenshots/" + site + "ContactFormSubmit" + timestamp + '.png'
+            generictests.take_screenshot(driver, generictests.screenshot_path + site + '-ContactFormSubmit' + timestamp + '.png')
+            raise Exception(error)
+
+
 
     def test_z_close(self):
         generictests.driver.close()

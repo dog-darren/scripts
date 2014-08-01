@@ -224,9 +224,9 @@ class Tests(unittest.TestCase):
             else:
                 value = noh1 + noh1content
                 print "###Pages with no h1 content###"
-                print noh1content
+                for item in noh1content: print item
                 print "###Pages with no h1###"
-                print noh1
+                for item in noh1: print item
                 return value
         h1check = checkh1(fullurl, urllist, logfile)
         if h1check == True:

@@ -1,6 +1,7 @@
 import unittest
 import generictests, runner
 from generictests import Tests
+from segenerictests import SETests
 from teamcity import is_running_under_teamcity
 from teamcity.unittestpy import TeamcityTestRunner
 
@@ -98,7 +99,20 @@ class ScottishEnterpriseTests(unittest.TestCase):
         tests = Tests()
         self.assertEqual(tests.functional_site_search_query_string_based(url,r'All results','//a[@id="plmain_0_RepeaterAll_lnkArticle_0"]',"issue",site + '-search_results'),True)
 
+    def test_knowledge_hub_load_first_content_item(self):
+        url = base_url + "/knowledge-hub"
+        tests = SETests()
+        self.assertEqual(tests.knowledge_hub_load_first_content_item(url,'//main/article/section[@id="plmain_0_divMainResultsSection"]/div[1]/a',site + '-KnowledgeHubArticleLoad',generictests.screenshot_path),True)
 
+    def test_knowledge_hub_filter(self):
+        url = base_url + "/knowledge-hub"
+        tests = SETests()
+        self.assertEqual(tests.knowledge_hub_filter(url, '//div[@class="results"]/p/span', 'services-link', 'service{F0127A84-E5D9-40BB-B191-2186A2DDCEDC}','//fieldset[@id="services-filter"]/a' , site + '-KnowledgeHubFilter', generictests.screenshot_path),True)
+
+    def test_knowledge_hub_sidepanels(self):
+        url = base_url + "/knowledge-hub"
+        tests = SETests()
+        self.assertEqual(tests.knowledge_hub_side_pod(url,'//main/article/section[@class="knowledge-hub-additional"]/div[1]/a',r'Share this article',site + '-KnowledgeHubSidePod', generictests.screenshot_path),True)
 ######################Non Generic Tests#######################
 
 
